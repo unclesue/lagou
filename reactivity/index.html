@@ -10,6 +10,7 @@
     <script type="module">
       import {
         reactive,
+        effect
       } from "./index.js";
 
       const product = reactive({
@@ -17,10 +18,16 @@
         price: 5000,
         count: 3,
       });
-      
-      console.log(product);
-      product.count = 100
-      console.log(product.count);
+
+      let total = 0
+      effect(() => {
+        total = product.price * product.count
+      })
+      console.log(total);
+      product.count = 10
+      console.log(total);
+      product.price = 1.25
+      console.log(total);
     </script>
   </body>
 </html>
