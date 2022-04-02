@@ -29,6 +29,7 @@
 <script lang="ts">
 import { Form } from 'element-ui'
 import Vue from 'vue'
+import { login } from '@/api/user'
 
 export default Vue.extend({
   name: 'LoginIndex',
@@ -56,8 +57,16 @@ export default Vue.extend({
       try {
         await (this.$refs.form as Form).validate()
         this.isLoginLoading = true
-      } catch (error) {
-        console.log(error)
+        const { data } = await login(this.form)
+        if (data.state !== 1) {
+          this.$message.error(data.message)
+        } else {
+          this.$store.commit('setUser', data.content)
+          this.$router.push(this.$route.query.redirect as string || '/')
+          this.$message.success('登录成功')
+        }
+      } catch (err) {
+        console.log('登录失败', err)
       }
       this.isLoginLoading = false
     }

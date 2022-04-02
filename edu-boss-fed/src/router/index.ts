@@ -13,6 +13,7 @@ const routes: Array<RouteConfig> = [
   {
     path: '/',
     component: Layout,
+    meta: { requiresAuth: true },
     children: [
       {
         path: '', // 默认子路由
@@ -53,7 +54,29 @@ const routes: Array<RouteConfig> = [
         path: '/advert-space',
         name: 'advert-space',
         component: () => import(/* webpackChunkName: 'advert-space' */ '@/views/advert-space/index.vue')
+      },
+      {
+        path: '/menu/create',
+        name: 'menu-create',
+        component: () => import(/* webpackChunkName: 'menu-create-edit' */ '@/views/menu/create.vue')
+      },
+      {
+        path: '/menu/:id/edit',
+        name: 'menu-edit',
+        component: () => import(/* webpackChunkName: 'menu-create-edit' */ '@/views/menu/edit.vue')
       }
+      // {
+      //   path: '/role/:roleId/alloc-menu',
+      //   name: 'alloc-menu',
+      //   component: () => import(/* webpackChunkName: 'alloc-menu' */ '@/views/role/alloc-menu.vue'),
+      //   props: true // 将路由路径参数映射到组件的 props 数据中
+      // },
+      // {
+      //   path: '/role/:roleId/alloc-resource',
+      //   name: 'alloc-resource',
+      //   component: () => import(/* webpackChunkName: 'alloc-menu' */ '@/views/role/alloc-resource.vue'),
+      //   props: true // 将路由路径参数映射到组件的 props 数据中
+      // }
     ]
   },
   {
