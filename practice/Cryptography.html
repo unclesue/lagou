@@ -1,0 +1,25 @@
+<script>
+  //   (async function () {
+  //     const textEncoder = new TextEncoder();
+  //     const message = textEncoder.encode("foo");
+  //     console.log(message, 'message')
+  //     const messageDigest = await crypto.subtle.digest("SHA-256", message);
+  //     console.log(messageDigest, 'messageDigest')
+  //     const hexDigest = Array.from(new Uint8Array(messageDigest))
+  //       .map((x) => x.toString(16).padStart(2, "0"))
+  //       .join("");
+  //     console.log(hexDigest);
+  //   })();
+  (async function() { 
+ const params = { 
+ name: 'AES-CTR', 
+ length: 128 
+ }; 
+ const keyUsages = ['encrypt', 'decrypt']; 
+ const key = await crypto.subtle.generateKey(params, true, keyUsages); 
+ const rawKey = await crypto.subtle.exportKey('jwk', key); 
+ console.log((rawKey)); 
+ // Uint8Array[93, 122, 66, 135, 144, 182, 119, 196, 234, 73, 84, 7, 139, 43, 238, 
+ // 110] 
+})();
+</script>

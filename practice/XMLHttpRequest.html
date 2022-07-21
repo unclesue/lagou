@@ -1,0 +1,38 @@
+<script>
+  const url =
+    "http://23.36.250.247:8002/api/duogui/reserveSynergy/getCityOrArea?userId=398";
+  // const req = new XMLHttpRequest()
+  // req.open('get', url, true)
+  // req.onload = (res => {
+  //     console.log(req.response)
+  // })
+  // req.send()
+
+  function makeRequest(method, url) {
+    return new Promise((resolve, reject) => {
+      const req = new XMLHttpRequest();
+      req.open("get", url);
+      req.onload = function () {
+        if (this.status == 200) {
+          resolve(req.response);
+        } else {
+          reject({
+            status: this.status,
+            statusText: req.response,
+          });
+        }
+      };
+      req.onerror = function () {
+        reject({
+          status: this.status,
+          statusText: req.response,
+        });
+      };
+      req.send();
+    });
+  }
+  (async () => {
+    const res = await makeRequest("get", url);
+    console.log(res);
+  })();
+</script>

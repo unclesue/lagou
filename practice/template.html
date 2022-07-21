@@ -1,0 +1,18 @@
+<body>
+<div id="id1" onclick="console.log('id1 outside:', event)">
+    <button onclick="console.log('button outside:', event)">123</button>
+</div>
+
+</body>
+<script>
+// document.body.innerHTML = ` 
+// <div onclick="console.log('Handled outside:', event)"></div> 
+// `; 
+// // 添加影子 DOM 并向其中插入 HTML 
+document.querySelector('div') 
+ .attachShadow({ mode: 'open' }) 
+ .innerHTML = ` 
+ <slot></slot>
+<button onclick="console.log('Handled inside:', event)">Foo</button> 
+`;
+</script>

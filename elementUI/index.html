@@ -1,0 +1,13 @@
+<style href="https://unpkg.com/element-ui@2.15.7/lib/theme-chalk/index.css"></style>
+<script src="https://unpkg.com/vue@2.6.9/dist/vue.js"></script>
+<script src="https://unpkg.com/element-ui@2.15.7/lib/index.js"></script>
+<div id="app">
+  <el-steps :space="200" :active="1" finish-status="success">
+    <el-step title="已完成"></el-step>
+    <el-step title="进行中"></el-step>
+    <el-step title="步骤 3"></el-step>
+  </el-steps>
+</div>
+<script>
+  new Vue().$mount("#app");
+</script>

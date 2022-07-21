@@ -1,0 +1,5 @@
+<body></body>
+<script>
+    const observer = new MutationObserver((mutationRecords) => console.log(mutationRecords))
+    observer.observe(document.body, { attributes: true, attributeOldValue: true })
+</script>

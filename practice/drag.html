@@ -1,0 +1,64 @@
+<!-- <div id="div1" ondrop="drop(event)" ondragover="dragover(event)"></div>
+<br />
+<p id="drag1" draggable="true" ondragstart="dragstart(event)">
+  This is a draggable paragraph. Drag this element into the rectangle.
+</p>
+
+<style>
+  #div1 {
+    width: 350px;
+    height: 70px;
+    padding: 10px;
+    border: 1px solid #aaaaaa;
+  }
+</style>
+
+<script>
+  function dragover(ev) {
+    ev.preventDefault();
+    ev.dataTransfer.dropEffect = "copy"
+  }
+
+  function dragstart(ev) {
+    ev.dataTransfer.setData("text", ev.target.id);
+    ev.dataTransfer.effectAllowed = "copyMove";
+  }
+
+  function drop(ev) {
+    var data = ev.dataTransfer.getData("Text");
+    ev.target.appendChild(document.getElementById(data));
+    ev.preventDefault();
+  }
+</script> -->
+
+<div id="div1" ondrop="drop(event)" ondragover="dragover(event)"></div>
+<br />
+<textarea ondragstart="dragstart(event)">
+  This is a draggable paragraph. Drag this element into the rectangle.
+</textarea>
+
+<style>
+  #div1 {
+    width: 350px;
+    height: 70px;
+    padding: 10px;
+    border: 1px solid #aaaaaa;
+  }
+</style>
+
+<script>
+  function dragover(ev) {
+    ev.preventDefault();
+    ev.dataTransfer.dropEffect = "move"
+  }
+
+  function dragstart(ev) {
+    ev.dataTransfer.effectAllowed = "move";
+  }
+
+  function drop(ev) {
+    var data = ev.dataTransfer.getData("Text");
+    ev.target.appendChild(document.createTextNode(data));
+    ev.preventDefault();
+  }
+</script>
