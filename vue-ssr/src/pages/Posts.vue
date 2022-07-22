@@ -25,6 +25,10 @@ export default {
     ...mapState(['posts'])
   },
 
+  asyncData() {
+    console.log('asyncData')
+  },
+
   // Vue SSR 特殊为服务端渲染提供的一个生命周期钩子函数
   serverPrefetch () {
     // 发起 action，返回 Promise
