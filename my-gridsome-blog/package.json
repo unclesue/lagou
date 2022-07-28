@@ -8,7 +8,11 @@
   },
   "dependencies": {
     "@fortawesome/fontawesome-free": "^6.1.2",
+    "@gridsome/source-graphql": "^0.1.0",
+    "@gridsome/source-strapi": "^0.2.0",
+    "axios": "^0.27.2",
     "bootstrap": "^5.2.0",
-    "gridsome": "^0.7.0"
+    "gridsome": "^0.7.0",
+    "markdown-it": "^13.0.1"
   }
 }
