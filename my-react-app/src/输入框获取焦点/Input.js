@@ -1,6 +1,6 @@
-import React from "react";
+import React, { Component } from "react";
 
-class Input extends React.Component {
+class Input extends Component {
   constructor() {
     super();
     this.inputRef = React.createRef();
