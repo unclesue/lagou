@@ -1,4 +1,4 @@
-import { BrowserRouter, Routes, Route, Link } from "react-router-dom";
+import { BrowserRouter, Routes, Route, Link, Outlet } from "react-router-dom";
 
 function CompanyNews() {
   return <div>公司新闻页面</div>;
@@ -13,19 +13,17 @@ function Index() {
 }
 
 function News(props) {
-    console.log(props, 'props')
+  console.log(props, 'props')
   return (
     <div>
       <div>
         <Link to={`/news/company`}>公司新闻</Link>
         <Link to={`/news/industry`}>行业新闻</Link>
       </div>
-      <Routes>
-        <Route path={`/news/company`} element={<CompanyNews />} />
-        <Route path={`/news/industry`} element={<IndustryNews />} />
-      </Routes>
+      <Outlet />
     </div>
   );
+  // return <div>新闻页面</div>;
 }
 
 export default function App() {
@@ -37,7 +35,10 @@ export default function App() {
       </div>
       <Routes>
         <Route path="/index" element={<Index />}></Route>
-        <Route path="/news" element={<News />}></Route>
+        <Route path="/news" element={<News />}>
+          <Route path={`company`} element={<CompanyNews />} />
+          <Route path={`industry`} element={<IndustryNews />} />
+        </Route>
       </Routes>
     </BrowserRouter>
   );
