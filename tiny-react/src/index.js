@@ -1,6 +1,6 @@
-import TinyReact from "./TinyReact"
+import TinyReact from "./TinyReact";
 
-const root = document.getElementById("root")
+const root = document.getElementById("root");
 
 const virtualDOM = (
   <div className="container">
@@ -18,6 +18,24 @@ const virtualDOM = (
     2, 3
     <input type="text" value="13" />
   </div>
-)
+);
 
-TinyReact.render(virtualDOM, root)
+// TinyReact.render(virtualDOM, root);
+
+class Ceshi {
+  constructor() {}
+}
+
+function Monkey() {
+  return <div>monkey</div>
+}
+
+function Person() {
+  return <div>hello <Monkey /></div>
+}
+
+function Heart(props) {
+  return <div>&hearts; {props.title}<Person /></div>
+}
+
+TinyReact.render(<Heart title="cool" />, root)
