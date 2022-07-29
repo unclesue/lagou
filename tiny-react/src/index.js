@@ -22,8 +22,20 @@ const virtualDOM = (
 
 // TinyReact.render(virtualDOM, root);
 
-class Ceshi {
-  constructor() {}
+class Ceshi extends TinyReact.Component {
+  constructor(props) {
+    super(props)
+  }
+  render() {
+    return (
+      <div>
+        <p onClick={() => console.log(this)}>姓名：{this.props.name}</p>
+        <p>年龄：{this.props.age}</p>
+        <Person></Person>
+        {this.props.children}
+      </div>
+    )
+  }
 }
 
 function Monkey() {
@@ -38,4 +50,4 @@ function Heart(props) {
   return <div>&hearts; {props.title}<Person /></div>
 }
 
-TinyReact.render(<Heart title="cool" />, root)
+TinyReact.render(<Ceshi name="张三" age={23}>插槽</Ceshi>, root)
