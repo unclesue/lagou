@@ -62,12 +62,48 @@ class Ceshi extends TinyReact.Component {
   render() {
     return (
       <div>
-        <p onClick={() => console.log(this)}>姓名：{this.props.name}</p>
+        {/* <p onClick={() => console.log(this)}>姓名：{this.props.name}</p>
         <p>年龄：{this.props.age}</p>
         <Person></Person>
         <p>{this.state.title}</p>
         <button onClick={this.changeTitle}>改变title</button>
+        <input type="text" ref={input => this.input = input}></input>
+        <button type="text" onClick={() => console.log(this.input)}>打印input</button> */}
         {this.props.children}
+      </div>
+    );
+  }
+}
+
+class DemoRef extends TinyReact.Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      persons: [
+        { name: "张三", id: 1 },
+        { name: "李四", id: 2 },
+        { name: "网二", id: 3 },
+        { name: "码子", id: 4 },
+      ],
+    };
+    this.handleClick = this.handleClick.bind(this);
+  }
+  handleClick() {
+    console.log('click')
+    const newState = JSON.parse(JSON.stringify(this.state));
+    // newState.persons.splice(1, 0, { id: 5, name: "李欣" });
+    newState.persons.pop()
+    this.setState(newState);
+  }
+  render() {
+    return (
+      <div>
+        <div>
+          {this.state.persons.map((person) => (
+            <p key={person.id}>{person.name}</p>
+          ))}
+        </div>
+        <button onClick={this.handleClick}>按钮</button>
       </div>
     );
   }
@@ -94,18 +130,4 @@ function Heart(props) {
   );
 }
 
-TinyReact.render(
-  <Ceshi name="张三" age={23}>
-    插槽
-  </Ceshi>,
-  root
-);
-setTimeout(() => {
-  TinyReact.render(
-    <Ceshi name="李四" age={44}>
-      插毛
-    </Ceshi>,
-    root
-  );
-  // TinyReact.render(<Heart title="dog" />, root)
-}, 2000);
+TinyReact.render(<DemoRef />, root);
