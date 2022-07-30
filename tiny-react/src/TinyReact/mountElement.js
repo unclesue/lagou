@@ -3,9 +3,9 @@ import mountComponent from "./mountComponent";
 import mountNativeElement from "./mountNativeElement";
 
 export default function mountElement(virtualDOM, container, oldDOM) {
-  // TODO: Component
+  // Component
   if (isFunction(virtualDOM)) {
-    mountComponent(virtualDOM, container)
+    mountComponent(virtualDOM, container, oldDOM)
   } else {
     // NativeElement
     mountNativeElement(virtualDOM, container, oldDOM);

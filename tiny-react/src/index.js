@@ -24,9 +24,7 @@ const modifyDOM = (
   <div className="container">
     <h1>你好 Tiny React</h1>
     <h2 data-test="test-123">(编码必杀技2222)</h2>
-    <div>
-      嵌套1
-    </div>
+    <div>嵌套1</div>
     <h3>(观察: 这个将会被改变3333)</h3>
     {2 == 1 && <div>如果2和1相等渲染当前内容</div>}
     {2 == 2 && <div data-show="">2</div>}
@@ -35,17 +33,31 @@ const modifyDOM = (
     2, 3, 5
     <input type="text" />
   </div>
-)
+);
 
-TinyReact.render(virtualDOM, root)
+// TinyReact.render(virtualDOM, root)
 
-setTimeout(() => {
-  TinyReact.render(modifyDOM, root)
-}, 2000)
+// setTimeout(() => {
+//   TinyReact.render(modifyDOM, root)
+// }, 2000)
 
 class Ceshi extends TinyReact.Component {
   constructor(props) {
-    super(props)
+    super(props);
+    this.state = { title: "default title" };
+    this.changeTitle = this.changeTitle.bind(this);
+  }
+  changeTitle() {
+    this.setState({ title: "change title" });
+  }
+  componentWillReceiveProps(props) {
+    console.log("componentWillReceiveProps", props);
+  }
+  componentWillUpdate(nextProps, nextState) {
+    console.log("componentWillUpdate", nextProps, nextState);
+  }
+  componentDidUpdate(prevProps, prevState) {
+    console.log("componentDidUpdate", prevProps, prevState);
   }
   render() {
     return (
@@ -53,22 +65,47 @@ class Ceshi extends TinyReact.Component {
         <p onClick={() => console.log(this)}>姓名：{this.props.name}</p>
         <p>年龄：{this.props.age}</p>
         <Person></Person>
+        <p>{this.state.title}</p>
+        <button onClick={this.changeTitle}>改变title</button>
         {this.props.children}
       </div>
-    )
+    );
   }
 }
 
 function Monkey() {
-  return <div>monkey</div>
+  return <div>monkey</div>;
 }
 
 function Person() {
-  return <div>hello <Monkey /></div>
+  return (
+    <div>
+      hello <Monkey />
+    </div>
+  );
 }
 
 function Heart(props) {
-  return <div>&hearts; {props.title}<Person /></div>
+  return (
+    <div>
+      &hearts; {props.title}
+      <Person />
+    </div>
+  );
 }
 
-// TinyReact.render(<Ceshi name="张三" age={23}>插槽</Ceshi>, root)
+TinyReact.render(
+  <Ceshi name="张三" age={23}>
+    插槽
+  </Ceshi>,
+  root
+);
+setTimeout(() => {
+  TinyReact.render(
+    <Ceshi name="李四" age={44}>
+      插毛
+    </Ceshi>,
+    root
+  );
+  // TinyReact.render(<Heart title="dog" />, root)
+}, 2000);
