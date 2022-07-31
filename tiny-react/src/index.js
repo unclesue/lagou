@@ -59,6 +59,9 @@ class Ceshi extends TinyReact.Component {
   componentDidUpdate(prevProps, prevState) {
     console.log("componentDidUpdate", prevProps, prevState);
   }
+  componentWillUnmount() {
+    console.log("componentWillUnmount")
+  }
   render() {
     return (
       <div>
@@ -89,10 +92,9 @@ class DemoRef extends TinyReact.Component {
     this.handleClick = this.handleClick.bind(this);
   }
   handleClick() {
-    console.log('click')
     const newState = JSON.parse(JSON.stringify(this.state));
-    // newState.persons.splice(1, 0, { id: 5, name: "李欣" });
-    newState.persons.pop()
+    newState.persons.splice(1, 1);
+    // newState.persons.pop()
     this.setState(newState);
   }
   render() {
@@ -100,7 +102,12 @@ class DemoRef extends TinyReact.Component {
       <div>
         <div>
           {this.state.persons.map((person) => (
-            <p key={person.id}>{person.name}</p>
+            <p key={person.id}>
+              {person.name}
+              <span>{person.id}</span>
+              <Heart title={person.name} />
+              <Ceshi>插槽123</Ceshi>
+            </p>
           ))}
         </div>
         <button onClick={this.handleClick}>按钮</button>

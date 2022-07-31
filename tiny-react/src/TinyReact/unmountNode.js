@@ -21,11 +21,10 @@ export default function unmountNode(node) {
     }
   })
   // 递归删除自子节点
-  if (node.children.length) {
-    for (let i = 0; i < node.children.length; i++) {
-      const element = array[i];
-      unmountNode(node.chileNodes[i])
-      i--
+  const nodeChilds = node.childNodes
+  if (nodeChilds.length) {
+    for (let i = 0; i < nodeChilds.length; i++) {
+      unmountNode(nodeChilds[i--])
     }
   }
   node.remove()
