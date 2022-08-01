@@ -1,2 +1,2 @@
-export { default as createDOMElement } from "./createDOMElement"
-export { default as updateNodeElement } from "./updateNodeElement"
+export { default as createDOMElement } from "./create-dom-element"
+export { default as updateNodeElement } from "./update-node-element"
