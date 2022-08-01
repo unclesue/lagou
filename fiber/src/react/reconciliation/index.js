@@ -9,6 +9,8 @@ const taskQueue = createTaskQueue();
  */
 let subTask = null;
 
+let pendingCommit = null;
+
 const getFirstTask = () => {
   /**
    * 从任务队列中获取任务
@@ -27,6 +29,14 @@ const getFirstTask = () => {
   };
 };
 
+const commitAllWork = (fiber) => {
+  fiber.effects.forEach(item => {
+    if (item.effectTag === "placement") {
+      item.parent.stateNode.appendChild(item.stateNode)
+    }
+  })
+}
+
 const reconcileChildren = (fiber, children) => {
   const reconcileChildren = arrified(children);
   let index = 0;
@@ -40,9 +50,9 @@ const reconcileChildren = (fiber, children) => {
     newFiber = {
       type: element.type,
       props: element.props,
-      tag: "host_component",
+      tag: getTag(element),
       effects: [],
-      effectTag: getTag(element),
+      effectTag: "placement",
       parent: fiber,
     };
     newFiber.stateNode = createStateNode(newFiber)
@@ -73,7 +83,7 @@ const executeTask = (fiber) => {
     }
     currentExecutelyFiber = currentExecutelyFiber.parent
   }
-  // console.log(fiber)
+  pendingCommit = currentExecutelyFiber
 };
 
 const workLoop = (deadline) => {
@@ -90,6 +100,8 @@ const workLoop = (deadline) => {
   while (subTask && deadline.timeRemaining() > 1) {
     subTask = executeTask(subTask);
   }
+
+  commitAllWork(pendingCommit)
 };
 
 const performTask = (deadline) => {
