@@ -9,7 +9,6 @@ const jsx = (
     <p>Hi Fiber</p>
   </div>
 )
-
 // render(jsx, root)
 class Greating extends Component {
   constructor(props) {
@@ -20,9 +19,15 @@ class Greating extends Component {
   }
   render() {
     return (
-      <div>hahahah</div>
+      <div>{this.props.title} class component</div>
     )
   }
 }
+render(<Greating title="study" />, root)
 
-render(<Greating />, root)
+function Fn(props) {
+  return (
+    <div>{props.title} function component</div>
+  )
+}
+// render(<Fn title="study" />, root)
