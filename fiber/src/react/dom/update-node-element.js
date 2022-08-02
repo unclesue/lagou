@@ -1,17 +1,12 @@
-export default function updateNodeElement(
-  newElement,
-  virtualDOM,
-  oldVirtualDOM = {}
-) {
-  // 获取节点对应的属性对象
-  const newProps = virtualDOM.props || {}
-  const oldProps = oldVirtualDOM.props || {}
+export default function updateNodeElement(newElement, virtualDOM, oldVirtualDOM = {}) {
+  const newProps = virtualDOM.props;
+  const oldProps = oldVirtualDOM.props || {};
 
   if (virtualDOM.type === "text") {
     if (newProps.textContent !== oldProps.textContent) {
       if (virtualDOM.parent.type !== oldVirtualDOM.parent.type) {
         virtualDOM.parent.stateNode.appendChild(
-          document.createTextNode(newProps.textContent)
+          document.createTextNode(newProps.textContent),
         )
       } else {
         virtualDOM.parent.stateNode.replaceChild(
@@ -23,44 +18,36 @@ export default function updateNodeElement(
     return
   }
 
-  Object.keys(newProps).forEach(propName => {
-    // 获取属性值
-    const newPropsValue = newProps[propName]
-    const oldPropsValue = oldProps[propName]
-    if (newPropsValue !== oldPropsValue) {
-      // 判断属性是否是否事件属性 onClick -> click
+  Object.keys(newProps).forEach((propName) => {
+    const newPropValue = newProps[propName];
+    const oldPropValue = oldProps[propName];
+    if (newPropValue !== oldPropValue) {
       if (propName.slice(0, 2) === "on") {
-        // 事件名称
-        const eventName = propName.toLowerCase().slice(2)
-        // 为元素添加事件
-        newElement.addEventListener(eventName, newPropsValue)
-        // 删除原有的事件的事件处理函数
-        if (oldPropsValue) {
-          newElement.removeEventListener(eventName, oldPropsValue)
-        }
-      } else if (propName === "value" || propName === "checked") {
-        newElement[propName] = newPropsValue
+        const eventName = propName.toLowerCase().slice(2);
+        newElement.addEventListener(eventName, newPropValue);
+        // 移除旧的事件
+        oldVirtualDOM && newElement.removeEventListener(eventName, oldPropValue);
+      } else if (propName === "checked" || propName === "value") {
+        newElement[propName] = newPropValue;
       } else if (propName !== "children") {
-        if (propName === "className") {
-          newElement.setAttribute("class", newPropsValue)
-        } else {
-          newElement.setAttribute(propName, newPropsValue)
-        }
+        newElement.setAttribute(
+          propName === "className" ? "class" : propName,
+          newPropValue
+        );
       }
     }
-  })
+  });
   // 判断属性被删除的情况
-  Object.keys(oldProps).forEach(propName => {
-    const newPropsValue = newProps[propName]
-    const oldPropsValue = oldProps[propName]
-    if (!newPropsValue) {
-      // 属性被删除了
+  Object.keys(oldProps).forEach((propName) => {
+    const newPropValue = newProps[propName];
+    const oldPropValue = oldProps[propName];
+    if (!newPropValue) {
       if (propName.slice(0, 2) === "on") {
-        const eventName = propName.toLowerCase().slice(2)
-        newElement.removeEventListener(eventName, oldPropsValue)
+        const eventName = propName.toLowerCase().slice(2);
+        newElement.removeEventListener(eventName, oldPropValue);
       } else if (propName !== "children") {
-        newElement.removeAttribute(propName)
+        newElement.removeAttribute(propName);
       }
     }
-  })
+  });
 }

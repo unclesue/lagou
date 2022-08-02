@@ -9,7 +9,17 @@ const jsx = (
     <p>Hi Fiber</p>
   </div>
 )
-// render(jsx, root)
+render(jsx, root)
+
+setTimeout(() => {
+  const jsx = (
+    <div>
+      <p>Hi Fiber</p>
+    </div>
+  )
+  render(jsx, root)
+}, 2000);
+
 class Greating extends Component {
   constructor(props) {
     super(props)
@@ -19,11 +29,14 @@ class Greating extends Component {
   }
   render() {
     return (
-      <div>{this.props.title} class component</div>
+      <div>
+        <p>node-1</p>
+        <span>node-2</span>
+      </div>
     )
   }
 }
-render(<Greating title="study" />, root)
+// render(<Greating title="study" />, root)
 
 function Fn(props) {
   return (

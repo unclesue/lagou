@@ -1,3 +1,4 @@
+import { updateNodeElement } from "../dom";
 import { arrified, createTaskQueue, createStateNode, getTag } from "../misc";
 
 /**
@@ -26,12 +27,21 @@ const getFirstTask = () => {
     tag: "host_root",
     effects: [],
     child: null,
+    alternate: task.dom.__rootfiberContainer
   };
 };
 
 const commitAllWork = (fiber) => {
   fiber.effects.forEach(item => {
-    if (item.effectTag === "placement") {
+    if (item.effectTag === "delete") {
+      item.parent.stateNode.removeChild(item.stateNode)
+    } else if (item.effectTag === "update") {
+      if (item.type === item.alternate.type) {
+        updateNodeElement(item.stateNode, item, item.alternate)
+      } else {
+        item.parent.stateNode.replaceChild(item.stateNode, item.alternate.stateNode)
+      }
+    } else if (item.effectTag === "placement") {
       let parentFiber = item.parent
       while(parentFiber.tag === "class_component" || parentFiber.tag === "function_component") {
         parentFiber = parentFiber.parent
@@ -41,6 +51,7 @@ const commitAllWork = (fiber) => {
       }
     }
   })
+  fiber.stateNode.__rootfiberContainer = fiber
 }
 
 const reconcileChildren = (fiber, children) => {
@@ -49,26 +60,58 @@ const reconcileChildren = (fiber, children) => {
   let element = null;
   let newFiber = null;
   let prevFiber = null;
-
-  while (index < reconcileChildren.length) {
+  let alternate = null
+  if (fiber.alternate && fiber.alternate.child) {
+    alternate = fiber.alternate.child
+  }
+  while (index < reconcileChildren.length || alternate) {
     element = reconcileChildren[index];
-    // 子级fiber对象
-    newFiber = {
-      type: element.type,
-      props: element.props,
-      tag: getTag(element),
-      effects: [],
-      effectTag: "placement",
-      parent: fiber,
-    };
-    newFiber.stateNode = createStateNode(newFiber)
+    if (!element && alternate) {
+      // 删除
+      alternate.effectTag = "delete"
+      fiber.effects.push(alternate)
+    } else if (element && alternate) {
+      // 更新
+      newFiber = {
+        type: element.type,
+        props: element.props,
+        tag: getTag(element),
+        effects: [],
+        effectTag: "update",
+        parent: fiber,
+        alternate
+      };
+      if (element.type === alternate.type) {
+        newFiber.stateNode = alternate.stateNode
+      } else {
+        newFiber.stateNode = createStateNode(newFiber)
+      }
+    } else if (element && !alternate) {
+      // 新增
+      newFiber = {
+        type: element.type,
+        props: element.props,
+        tag: getTag(element),
+        effects: [],
+        effectTag: "placement",
+        parent: fiber,
+      };
+      newFiber.stateNode = createStateNode(newFiber)
+    }
     if (index === 0) {
       // 为父级添加子级
       fiber.child = newFiber;
-    } else {
+    } else if (element) {
       // 为fiber添加下一个兄弟fiber
       prevFiber.sibling = newFiber;
     }
+
+    if (alternate && alternate.sibling) {
+      alternate = alternate.sibling
+    } else {
+      alternate = null
+    }
+
     prevFiber = newFiber;
     index++;
   }
