@@ -9,16 +9,16 @@ const jsx = (
     <p>Hi Fiber</p>
   </div>
 )
-render(jsx, root)
+// render(jsx, root)
 
-setTimeout(() => {
-  const jsx = (
-    <div>
-      <p>Hi Fiber</p>
-    </div>
-  )
-  render(jsx, root)
-}, 2000);
+// setTimeout(() => {
+//   const jsx = (
+//     <div>
+//       <p>Hi Fiber</p>
+//     </div>
+//   )
+//   render(jsx, root)
+// }, 2000);
 
 class Greating extends Component {
   constructor(props) {
@@ -30,13 +30,14 @@ class Greating extends Component {
   render() {
     return (
       <div>
-        <p>node-1</p>
-        <span>node-2</span>
+        <p>props.title: {this.props.title}</p>
+        <span>state.name: {this.state.name}</span>
+        <button onClick={() => this.setState({ name: "李四" })}>点击修改state</button>
       </div>
     )
   }
 }
-// render(<Greating title="study" />, root)
+render(<Greating title="study" />, root)
 
 function Fn(props) {
   return (
