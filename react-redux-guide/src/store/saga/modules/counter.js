@@ -1,6 +1,6 @@
 import { takeEvery, put, delay } from "redux-saga/effects";
-import { increment } from "../actions/counter.action";
-import { INCREMENT_ASYNC } from "../const/couner.const";
+import { increment } from "../../actions/counter";
+import { INCREMENT_ASYNC } from "../../const/couner";
 
 function* loadData(action) {
   yield delay(2000);

@@ -1,8 +1,8 @@
 import { bindActionCreators } from "redux";
 import { connect } from "react-redux";
-import * as counterActions from "../store/actions/modal.action";
+import * as counterActions from "../store/actions/modal";
 
-function Modal({ visible, show, hide, showAsync, posts }) {
+function Modal({ visible, show, hideAsync, showAsync, posts }) {
   const styles = {
     width: 400,
     height: 400,
@@ -25,7 +25,7 @@ function Modal({ visible, show, hide, showAsync, posts }) {
         </ul>
       </div>
       <button onClick={showAsync}>显示弹窗</button>
-      <button onClick={hide}>隐藏弹窗</button>
+      <button onClick={hideAsync}>隐藏弹窗</button>
     </div>
   );
 }

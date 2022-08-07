@@ -1,6 +1,6 @@
 import { bindActionCreators } from "redux";
 import { connect } from "react-redux";
-import * as counterActions from "../store/actions/counter.action";
+import * as counterActions from "../store/actions/counter";
 
 function Counter({ count, incrementAsync, decrement }) {
   return (
