@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <button id="plus">plus</button>
+    <span id="count">0</span>
+    <button id="minus">minus</button>
+    <script src="https://unpkg.com/redux@4.2.0/dist/redux.js"></script>
+    <script>
+      const initialState = { count: 0 };
+      // 实例化store
+      const store = Redux.createStore(reduxer);
+      // 定义action
+      const increment = { type: "increment" };
+      const decrement = { type: "decrement" };
+      // 定义reduxer
+      function reduxer(state = initialState, action) {
+        switch (action.type) {
+          case "increment":
+            return { count: state.count + 1 };
+          case "decrement":
+            return { count: state.count - 1 };
+          default:
+            return state;
+        }
+      }
+      // 触发更新
+      document.getElementById("plus").onclick = () => {
+        store.dispatch(increment);
+      };
+      document.getElementById("minus").onclick = () => {
+        store.dispatch(decrement);
+      };
+      // 订阅状态变化
+      store.subscribe(() => {
+        document.getElementById("count").innerHTML = store.getState().count;
+      });
+    </script>
+  </body>
+</html>
