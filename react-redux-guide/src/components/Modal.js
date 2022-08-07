@@ -2,23 +2,28 @@ import { bindActionCreators } from "redux";
 import { connect } from "react-redux";
 import * as counterActions from "../store/actions/modal.action";
 
-function Modal({ visible, show, hide, showAsync }) {
+function Modal({ visible, show, hide, showAsync, posts }) {
   const styles = {
-    width: 200,
-    height: 200,
-    textAlign: 'center',
-    lineHeight: '200px',
+    width: 400,
+    height: 400,
+    padding: 10,
     position: 'absolute',
     left: '50%',
     top: '50%',
-    marginTop: -100,
-    marginLeft: -100,
+    marginTop: -200,
+    marginLeft: -200,
     backgroundColor: '#f1f1f1',
-    display: visible ? 'block' : 'none'
+    display: visible ? 'block' : 'none',
+    border: '2px solid #dedede',
+    overflow: 'auto',
   }
   return (
     <div>
-      <div style={styles}>我是弹窗</div>
+      <div style={styles}>
+        <ul>
+          {posts.map(i => <li key={i.id}>{i.title}</li>)}
+        </ul>
+      </div>
       <button onClick={showAsync}>显示弹窗</button>
       <button onClick={hide}>隐藏弹窗</button>
     </div>
@@ -26,7 +31,7 @@ function Modal({ visible, show, hide, showAsync }) {
 }
 
 const mapStateToProps = (state) => {
-  return { visible: state.modal.show };
+  return { visible: state.modal.show, posts: state.modal.posts };
 };
 
 const mapDispatchToProps = (dispatch) =>
