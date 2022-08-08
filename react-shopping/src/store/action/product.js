@@ -1,4 +1,4 @@
 import { createAction } from 'redux-actions'
 
-export const getProducts = createAction('getProducts')
-export const setProducts = createAction('setProducts')
+export const getProductsFromService = createAction('getProductsFromService')
+export const setProductsToLocal = createAction('setProductsToLocal')
