@@ -9,7 +9,7 @@ class Product extends Component {
     this.props.getProductsFromService();
   }
   render() {
-    const { setProductToServiceCart } = this.props
+    const { setCartToService } = this.props
     return (
       <section className="container content-section">
         <h2 className="section-header">商品列表</h2>
@@ -25,7 +25,7 @@ class Product extends Component {
                 <button
                   className="btn btn-primary shop-item-button"
                   type="button"
-                  onClick={() => setProductToServiceCart(item.id)}
+                  onClick={() => setCartToService(item.id)}
                 >
                   加入购物车
                 </button>
