@@ -19,7 +19,7 @@ function* handlegetCartsFromService(action) {
 // 添加商品到服务器购物车
 function* handlesetCartToService(action) {
   const { data } = yield axios.post("http://localhost:3005/cart/add", {
-    gid: action.payload,
+    gid: action.payload.id,
   });
   yield put(setCartToLocal(data));
 }
