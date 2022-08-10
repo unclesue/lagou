@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+</head>
+<body>
+  <button id="increment">+1</button>
+  <span id="count">0</span>
+  <button id="decrement">-1</button>
+  <script src="./index.js"></script>
+  <script>
+    function reducer(state, action) {
+      switch (action.type) {
+        case 'increment':
+          return state + 1;
+        case 'decrement':
+          return state - 1;
+        default:
+          return state;
+      }
+    }
+    function enhancer(createStore) {
+      return function(reducer, preloadedState) {
+        const store = createStore(reducer, preloadedState)
+        const dispatch = store.dispatch
+        function _dispatch(action) {
+          if (typeof action === 'function') {
+            return action(dispatch)
+          }
+          dispatch(action)
+        }
+        return {
+          ...store,
+          dispatch: _dispatch
+        }
+      }
+    }
+    const store = createStore(reducer, 0, enhancer)
+    document.getElementById('increment').onclick = () => {
+      // store.dispatch({ type: 'increment' })
+      store.dispatch(function(dispatch) {
+        setTimeout(function() {
+          dispatch({ type: 'increment' })
+        }, 1000)
+      })
+    }
+    document.getElementById('decrement').onclick = () => {
+      store.dispatch({ type: 'decrement' })
+    }
+    store.subscribe(() => {
+      document.getElementById('count').innerHTML = store.getState()
+    })
+  </script>
+</body>
+</html>
