@@ -66,3 +66,20 @@ function compose() {
     return dispatch;
   };
 }
+
+function bindActionCreators(actionCreators, dispatch) {
+  const boundActionCreators = {};
+  // for (const key in actionCreators) {
+  //   boundActionCreators[key] = function () {
+  //     dispatch(actionCreators[key]());
+  //   };
+  // }
+  for (var key in actionCreators) {
+    (function(key){
+      boundActionCreators[key] = function () {
+        dispatch(actionCreators[key]());
+      };
+    })(key)
+  }
+  return boundActionCreators;
+}
