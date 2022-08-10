@@ -2,11 +2,11 @@ function createStore(reducer, preloadedState, enhancer) {
   if (typeof reducer !== "function") {
     throw new Error("reducer must be a function.");
   }
-  if (typeof enhancer !== 'undefined') {
-    if (typeof enhancer !== 'function') {
+  if (typeof enhancer !== "undefined") {
+    if (typeof enhancer !== "function") {
       throw new Error("reducer must be a function.");
     }
-    return enhancer(createStore)(reducer, preloadedState)
+    return enhancer(createStore)(reducer, preloadedState);
   }
   let currentState = preloadedState;
   const listeners = [];
@@ -37,4 +37,32 @@ function isPlainObject(obj) {
     proto = Object.getPrototypeOf(proto);
   }
   return Object.getPrototypeOf(obj) === proto;
+}
+
+function applyMiddleware(...middlewares) {
+  return function enhancer(createStore) {
+    return function (reducer, preloadedState) {
+      const store = createStore(reducer, preloadedState);
+      const middlewareApi = {
+        dispatch: store.dispatch,
+        getState: store.getState,
+      };
+      const chain = middlewares.map((middleware) => middleware(middlewareApi));
+      const dispatch = compose(...chain)(store.dispatch);
+      return {
+        ...store,
+        dispatch,
+      };
+    };
+  };
+}
+
+function compose() {
+  const funcs = [...arguments];
+  return function (dispatch) {
+    for (let i = funcs.length - 1; i >= 0; i--) {
+      dispatch = funcs[i](dispatch);
+    }
+    return dispatch;
+  };
 }
