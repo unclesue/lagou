@@ -4,7 +4,7 @@ function createStore(reducer, preloadedState, enhancer) {
   }
   if (typeof enhancer !== "undefined") {
     if (typeof enhancer !== "function") {
-      throw new Error("reducer must be a function.");
+      throw new Error("enhancer must be a function.");
     }
     return enhancer(createStore)(reducer, preloadedState);
   }
@@ -82,4 +82,20 @@ function bindActionCreators(actionCreators, dispatch) {
     })(key)
   }
   return boundActionCreators;
+}
+
+function combineReducers(reducers) {
+  const keys = Object.keys(reducers)
+  keys.forEach(key => {
+    if (typeof reducers[key] !== 'function') {
+      throw new Error("reducer must be a function.");
+    }
+  })
+  return (state, action) => {
+    let newState = {}
+    keys.forEach(key => {
+      newState[key] = reducers[key](state[key], action)
+    })
+    return newState
+  }
 }
