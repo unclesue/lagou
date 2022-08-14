@@ -1,9 +1,12 @@
-import TestUseState from "./UseState";
+// import TestUseContext from "./UseContext";
+import TestUseEffect from "./UseEffect";
+// import TestUseReducer from "./UseReducer";
+// import TestUseState from "./UseState";
 
-function App() {
+function App({ root }) {
   return (
     <div className="App">
-      <TestUseState />
+      <TestUseEffect root={root} />
     </div>
   );
 }
