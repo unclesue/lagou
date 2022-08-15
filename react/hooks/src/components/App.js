@@ -1,5 +1,5 @@
 // import TestUseContext from "./UseContext";
-import TestUseEffect from "./UseEffect";
+import TestUseEffect from "./UseEffect/结合异步函数";
 // import TestUseReducer from "./UseReducer";
 // import TestUseState from "./UseState";
 

@@ -4,14 +4,14 @@ import { useEffect, useState } from "react";
 function TestUseEffect({ root }) {
   const [count, setCount] = useState(110);
   // componentDidMount, componentDidUpdate
-  // useEffect(() => {
-  //   console.log("componentDidMount, componentDidUpdate")
-  // })
+  useEffect(() => {
+    console.log("componentDidMount, componentDidUpdate")
+  })
 
   // componentDidMount
-  // useEffect(() => {
-  //   console.log("componentDidMount")
-  // }, [])
+  useEffect(() => {
+    console.log("componentDidMount")
+  }, [])
 
   // componentWillUnMount
   useEffect(() => {
@@ -19,6 +19,7 @@ function TestUseEffect({ root }) {
       console.log("componentWillUnMount")
     }
   }, [])
+
   return (
     <div>
       <div>
