@@ -1,12 +1,9 @@
-// import TestUseContext from "./UseContext";
-import TestUseEffect from "./UseEffect/结合异步函数";
-// import TestUseReducer from "./UseReducer";
-// import TestUseState from "./UseState";
+import TestUseRef from "./UseRef/保存数据";
 
 function App({ root }) {
   return (
     <div className="App">
-      <TestUseEffect root={root} />
+      <TestUseRef />
     </div>
   );
 }
