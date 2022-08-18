@@ -1,8 +1,9 @@
+/** https://emotion.sh/docs/css-prop#jsx-pragma */
+/** @jsxImportSource @emotion/react */
+
 function App() {
   return (
-    <div className="App">
-      App run.
-    </div>
+    <div css={{ width: 200, height: 200, background: "red" }}>App run.</div>
   );
 }
 
