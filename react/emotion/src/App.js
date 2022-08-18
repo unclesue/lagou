@@ -1,9 +1,10 @@
-/** https://emotion.sh/docs/css-prop#jsx-pragma */
-/** @jsxImportSource @emotion/react */
+import Demo from "./components/创建主题";
 
 function App() {
   return (
-    <div css={{ width: 200, height: 200, background: "red" }}>App run.</div>
+    <div className="App">
+      <Demo />
+    </div>
   );
 }
 
