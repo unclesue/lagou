@@ -5,6 +5,8 @@ import { Box, Button, Heading, Text } from "@chakra-ui/react";
 import { css } from "@emotion/react";
 import styled from "@emotion/styled";
 import Link from "next/link";
+import axios from "axios";
+import { baseURL } from "../axios.config";
 
 const CarouselItem = styled.div`
   position: relative;
@@ -60,7 +62,7 @@ function renderThumbs(children) {
   });
 }
 
-export default function Swiper() {
+export default function Swiper({ data }) {
   return (
     <Box>
       <Carousel
@@ -70,64 +72,32 @@ export default function Swiper() {
         showStatus={false}
         renderThumbs={renderThumbs}
       >
-        <CarouselItem>
-          <Image
-            width="1920px"
-            height="640px"
-            alt="banner"
-            src="/images/1.jpg"
-          />
-          <Box>
-            <Heading as="h2" size="lg">
-              banner 1
-            </Heading>
-            <Text>banner 1 description</Text>
-            <Button colorScheme="red">
-              <Link href="#">
-                <a>CHECK DETAIL</a>
-              </Link>
-            </Button>
-          </Box>
-        </CarouselItem>
-        <CarouselItem>
-          <Image
-            width="1920px"
-            height="640px"
-            alt="banner"
-            src="/images/2.jpg"
-          />
-          <Box>
-            <Heading as="h2" size="lg">
-              banner 2
-            </Heading>
-            <Text>banner 2 description</Text>
-            <Button colorScheme="red">
-              <Link href="#">
-                <a>CHECK DETAIL</a>
-              </Link>
-            </Button>
-          </Box>
-        </CarouselItem>
-        <CarouselItem>
-          <Image
-            width="1920px"
-            height="640px"
-            alt="banner"
-            src="/images/3.jpg"
-          />
-          <Box>
-            <Heading as="h2" size="lg">
-              banner 3
-            </Heading>
-            <Text>banner 3 description</Text>
-            <Button colorScheme="red">
-              <Link href="#">
-                <a>CHECK DETAIL</a>
-              </Link>
-            </Button>
-          </Box>
-        </CarouselItem>
+        {data.map((item) => (
+          <CarouselItem key={item.id}>
+            <Image
+              width="1920px"
+              height="640px"
+              alt={item.title}
+              src={item.url}
+            />
+            <Box>
+              <Heading as="h2" size="lg">
+                {item.title}
+              </Heading>
+              <Text>{item.description}</Text>
+              <Button colorScheme="red">
+                <Link href="/detail/[id]" as={`/detail/${item.vid}`}>
+                  <a>CHECK DETAIL</a>
+                </Link>
+              </Button>
+            </Box>
+          </CarouselItem>
+        ))}
       </Carousel>
     </Box>
   );
+}
+
+export function loadSwiper() {
+  return axios.get("/api/swiper", { baseURL });
 }

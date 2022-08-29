@@ -3,7 +3,7 @@ import Link from "next/link";
 
 export default function Navigation() {
   return (
-    <Box height="52px" color="#fff">
+    <Box height="52px" color="white">
       <HStack height="52px" spacing={3} justifyContent="center" alignItems="center">
       <Link href="#">
         <a>影片</a>
