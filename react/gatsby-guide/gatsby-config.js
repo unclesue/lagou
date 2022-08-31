@@ -11,15 +11,23 @@ module.exports = {
     author: "gatsby",
   },
   plugins: [
-    `gatsby-transformer-json`,
     {
       resolve: `gatsby-source-filesystem`,
       options: {
-        name: `data`,
-        path: `${__dirname}/json/`,
+        name: `json`,
+        path: `${__dirname}/src/data/product/`,
       },
     },
+    {
+      resolve: `gatsby-source-filesystem`,
+      options: {
+        name: `markdown`,
+        path: `${__dirname}/src/data/post/`,
+      },
+    },
+    `gatsby-transformer-json`,
+    `gatsby-transformer-remark`,
+    `gatsby-transformer-sharp`,
     `gatsby-plugin-sharp`,
-    `gatsby-transformer-sharp`
   ],
 }
