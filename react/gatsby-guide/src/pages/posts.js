@@ -1,7 +1,7 @@
 import React from "react"
 import { graphql } from "gatsby"
 
-export default function Post({ data }) {
+export default function Posts({ data }) {
   return data.allMarkdownRemark.nodes.map(item => (
     <div key={item.id}>
       <p>{item.frontmatter.title}</p>

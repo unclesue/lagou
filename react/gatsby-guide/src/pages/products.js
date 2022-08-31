@@ -2,7 +2,7 @@ import React from "react"
 import { graphql } from "gatsby"
 import Img from "gatsby-image"
 
-export default function Product({ data }) {
+export default function Products({ data }) {
   return data.allProductsJson.nodes.map(item => (
     <div key={item.jsonId}>
       <p>{item.title}</p>

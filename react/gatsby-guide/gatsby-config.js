@@ -25,8 +25,13 @@ module.exports = {
         path: `${__dirname}/src/data/post/`,
       },
     },
+    {
+      resolve: `gatsby-transformer-remark`,
+      options: {
+        plugins: [`gatsby-remark-images`]
+      }
+    },
     `gatsby-transformer-json`,
-    `gatsby-transformer-remark`,
     `gatsby-transformer-sharp`,
     `gatsby-plugin-sharp`,
   ],

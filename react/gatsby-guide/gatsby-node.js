@@ -1,7 +1,7 @@
 const { createFilePath } = require(`gatsby-source-filesystem`)
 const path = require("path")
 
-exports.createPages = ({ actions }) => {
+exports.createPages = async ({ actions, graphql }) => {
   const { createPage } = actions
   const PersonTemplate = require.resolve("./src/templates/person.js")
   const persons = [
@@ -10,9 +10,33 @@ exports.createPages = ({ actions }) => {
   ]
   persons.forEach(item => {
     createPage({
-      path: `/person/${item.slug}`,
+      path: `/persons/${item.slug}`,
       component: PersonTemplate,
       context: item,
+    })
+  })
+
+  // 构建文章详情页
+  const PostTemplate = require.resolve("./src/templates/post.js")
+  const { data } = await graphql(`
+    query {
+      allMarkdownRemark {
+        nodes {
+          fields {
+            slug
+          }
+        }
+      }
+    }
+  `)
+  data.allMarkdownRemark.nodes.forEach(item => {
+    console.log(item.fields.slug)
+    createPage({
+      path: `/posts/${item.fields.slug}`,
+      component: PostTemplate,
+      context: {
+        slug: item.fields.slug
+      },
     })
   })
 }
@@ -31,15 +55,15 @@ exports.onCreateNode = ({ node, getNode, actions }) => {
     // Creates new query'able field with name of 'slug'
     createNodeField({
       node,
-      name: "slug",
-      value: `/post${relativeFilePath}`,
+      name: "slug2",
+      value: `/posts${relativeFilePath}`,
     })
 
     const slug = path.basename(node.fileAbsolutePath, ".md")
 
     createNodeField({
       node,
-      name: "slug2",
+      name: "slug",
       value: slug,
     })
   }
