@@ -10,5 +10,16 @@ module.exports = {
     title: "hello gatsby",
     author: "gatsby",
   },
-  plugins: [],
+  plugins: [
+    `gatsby-transformer-json`,
+    {
+      resolve: `gatsby-source-filesystem`,
+      options: {
+        name: `data`,
+        path: `${__dirname}/json/`,
+      },
+    },
+    `gatsby-plugin-sharp`,
+    `gatsby-transformer-sharp`
+  ],
 }
