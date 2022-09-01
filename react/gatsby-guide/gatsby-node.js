@@ -17,53 +17,55 @@ exports.createPages = async ({ actions, graphql }) => {
   })
 
   // 构建文章详情页
-  // const PostTemplate = require.resolve("./src/templates/post.js")
-  // const { data } = await graphql(`
-  //   query {
-  //     allMarkdownRemark {
-  //       nodes {
-  //         fields {
-  //           slug
-  //         }
-  //       }
-  //     }
-  //   }
-  // `)
-  // data.allMarkdownRemark.nodes.forEach(item => {
-  //   createPage({
-  //     path: `/posts/${item.fields.slug}`,
-  //     component: PostTemplate,
-  //     context: {
-  //       slug: item.fields.slug
-  //     },
-  //   })
-  // })
+  const PostTemplate = require.resolve("./src/templates/post.js")
+  const { data } = await graphql(`
+    query {
+      allMarkdownRemark(filter: {fileAbsolutePath: {regex: "/post/"}}) {
+        nodes {
+          fields {
+            slug
+          }
+        }
+      }
+    }
+  `)
+  data.allMarkdownRemark.nodes.forEach(item => {
+    createPage({
+      path: `/posts/${item.fields.slug}`,
+      component: PostTemplate,
+      context: {
+        slug: item.fields.slug
+      },
+    })
+  })
 }
 
 exports.onCreateNode = ({ node, getNode, actions }) => {
   const { createNodeField } = actions
+  const parent = getNode(node.parent)
+
   // Ensures we are processing only markdown files
-  // if (node.internal.type === "MarkdownRemark") {
-  //   // Use `createFilePath` to turn markdown files in our `data/faqs` directory into `/faqs/slug`
-  //   const relativeFilePath = createFilePath({
-  //     node,
-  //     getNode,
-  //     basePath: "data/post/",
-  //   })
+  if (node.internal.type === "MarkdownRemark" && parent?.sourceInstanceName === "markdown") {
+    // Use `createFilePath` to turn markdown files in our `data/faqs` directory into `/faqs/slug`
+    const relativeFilePath = createFilePath({
+      node,
+      getNode,
+      basePath: "data/post/",
+    })
 
-  //   // Creates new query'able field with name of 'slug'
-  //   createNodeField({
-  //     node,
-  //     name: "slug2",
-  //     value: `/posts${relativeFilePath}`,
-  //   })
+    // Creates new query'able field with name of 'slug'
+    createNodeField({
+      node,
+      name: "slug2",
+      value: `/posts${relativeFilePath}`,
+    })
 
-  //   const slug = path.basename(node.fileAbsolutePath, ".md")
+    const slug = path.basename(node.fileAbsolutePath, ".md")
 
-  //   createNodeField({
-  //     node,
-  //     name: "slug",
-  //     value: slug,
-  //   })
-  // }
+    createNodeField({
+      node,
+      name: "slug",
+      value: slug,
+    })
+  }
 }
