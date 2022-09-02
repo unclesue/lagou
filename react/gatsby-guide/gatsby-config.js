@@ -64,5 +64,6 @@ module.exports = {
     `gatsby-plugin-sharp`,
     `gatsby-transformer-myxml`,
     `gatsby-plugin-react-helmet`,
+    `gatsby-plugin-less`
   ],
 }
