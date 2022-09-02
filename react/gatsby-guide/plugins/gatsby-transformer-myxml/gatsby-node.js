@@ -7,9 +7,9 @@ async function onCreateNode({
   node,
   loadNodeContent,
   createContentDigest,
-  createNodeId,
+  createNodeId
 }) {
-  const { createNode } = actions
+  const { createNode, createParentChildLink } = actions
   // only log for nodes of mediaType `text/yaml`
   if (node.internal.mediaType !== `application/xml`) {
     return
