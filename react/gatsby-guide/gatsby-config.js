@@ -29,14 +29,18 @@ module.exports = {
       },
     },
     {
+      resolve: `gatsby-source-filesystem`,
+      options: {
+        name: `xml`,
+        path: `${__dirname}/src/data/xml/`,
+      },
+    },
+    {
       resolve: `gatsby-transformer-remark`,
       options: {
         plugins: [`gatsby-remark-images`]
       },
     },
-    `gatsby-transformer-json`,
-    `gatsby-transformer-sharp`,
-    `gatsby-plugin-sharp`,
     // {
     //   resolve: `gatsby-source-strapi`,
     //   options: {
@@ -55,5 +59,9 @@ module.exports = {
         collectionTypes: ["post", "user"],
       },
     },
+    `gatsby-transformer-json`,
+    `gatsby-transformer-sharp`,
+    `gatsby-plugin-sharp`,
+    `gatsby-transformer-myxml`,
   ],
 }
