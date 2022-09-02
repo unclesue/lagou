@@ -37,13 +37,22 @@ module.exports = {
     `gatsby-transformer-json`,
     `gatsby-transformer-sharp`,
     `gatsby-plugin-sharp`,
+    // {
+    //   resolve: `gatsby-source-strapi`,
+    //   options: {
+    //     apiURL: process.env.STRAPI_API_URL,
+    //     accessToken: process.env.STRAPI_TOKEN,
+    //     collectionTypes: ["post", "user"],
+    //     singleTypes: [],
+    //   },
+    // },
+    // 使用自己开发的数据源插件
     {
-      resolve: `gatsby-source-strapi`,
+      resolve: `gatsby-source-mystrapi`,
       options: {
         apiURL: process.env.STRAPI_API_URL,
         accessToken: process.env.STRAPI_TOKEN,
-        collectionTypes: ["post"],
-        singleTypes: [],
+        collectionTypes: ["post", "user"],
       },
     },
   ],
