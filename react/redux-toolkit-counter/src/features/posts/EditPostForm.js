@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate, useParams } from "react-router-dom";
-import { selectPostById, update } from "./postSlice";
+import { selectPostById, postUpdated } from "./postSlice";
 
 export default function EditPostForm() {
   const params = useParams();
@@ -14,7 +14,7 @@ export default function EditPostForm() {
 
   const onSubmit = () => {
     if (!(title && content)) return;
-    dispatch(update({ id: post.id, title, content }));
+    dispatch(postUpdated({ id: post.id, title, content }));
     navigate(`/posts/${post.id}`)
   };
 
