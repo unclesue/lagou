@@ -71,7 +71,8 @@ const postsSlice = createSlice({
       .addCase(fetchPosts.fulfilled, (state, action) => {
         state.status = "succeeded";
         // state.items = state.items.concat(action.payload);
-        postsAdapter.upsertMany(state, action.payload);
+        // 传action和action.payload貌似都可以
+        postsAdapter.upsertMany(state, action);
       })
       .addCase(fetchPosts.rejected, (state, action) => {
         state.status = "failed";
