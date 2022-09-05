@@ -1,30 +1,37 @@
-import { useEffect } from "react";
+import { memo, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Link, Outlet, useNavigate } from "react-router-dom";
 import { Spinner } from "../../components/Spinner";
 import PostAuthor from "./PostAuthor";
 import { fetchPosts, selectAllPosts } from "./postSlice";
+import { ReactionButtons } from "./ReactionButtons";
 import { TimeAgo } from "./TimeAgo";
 
 const styles = {
   list: {
     border: "1px solid",
     padding: "10px",
+    width: "30%"
   },
   detail: {
     padding: "10px",
+    width: "70%"
   }
 };
 
-const PostExcerpt = ({post, navigate}) => (
-  <article key={post.id}>
-    <h3 onClick={() => navigate(`/posts/${post.id}`)}>{post.title}</h3>
-    <p>{post.content.substring(0, 100)}</p>
-    <PostAuthor userId={post.user} />
-    <TimeAgo timestamp={post.date} />
-    <br />
-    <Link to={`/posts/${post.id}`}>view detail</Link>
-  </article>
+const PostExcerpt = memo(
+  ({post, navigate}) => (
+    <article key={post.id}>
+      <h3 onClick={() => navigate(`/posts/${post.id}`)}>{post.title}</h3>
+      <p>{post.content.substring(0, 100)}</p>
+      <PostAuthor userId={post.user} />
+      <TimeAgo timestamp={post.date} />
+      <br />
+      <ReactionButtons post={post} />
+      <br />
+      <Link to={`/posts/${post.id}`}>view detail</Link>
+    </article>
+  )
 )
 
 export default function PostsList() {

@@ -1,7 +1,6 @@
-import { sub } from "date-fns";
-import request from "../../app/request";
+import { client } from "../../api/client";
 
-const { createSlice, createAsyncThunk } = require("@reduxjs/toolkit");
+const { createSlice, createAsyncThunk, createSelector } = require("@reduxjs/toolkit");
 
 const initialState = {
   items: [],
@@ -40,6 +39,13 @@ const postsSlice = createSlice({
         post.content = content;
       }
     },
+    reactionAdded(state, action) {
+      const { postId, reaction } = action.payload
+      const existingPost = state.items.find(post => post.id === postId)
+      if (existingPost) {
+        existingPost.reactions[reaction]++
+      }
+    }
   },
   extraReducers(builder) {
     builder
@@ -54,42 +60,32 @@ const postsSlice = createSlice({
         state.status = "failed";
         state.error = action.error.message;
       })
-      .addCase(createPost.fulfilled, (state, action) => {
-        state.items.push({
-          ...action.payload,
-          date: new Date().toISOString(),
-          user: Number(action.payload.userId)
-        });
+      .addCase(addNewPost.fulfilled, (state, action) => {
+        state.items.push(action.payload);
       });
   },
 });
 
 export const fetchPosts = createAsyncThunk("posts/fetchPosts", async () => {
-  const response = await request.get("/posts");
-  return response.data.map((item) => ({
-    ...item,
-    content: item.body,
-    date: sub(new Date(), {
-      minutes: Math.ceil(Math.random() * 10),
-    }).toISOString(),
-    user: Math.ceil(Math.random() * 10),
-  }));
-});
-
-export const createPost = createAsyncThunk("posts/create", async (data) => {
-  const response = await request.post("/posts", {
-    ...data,
-    body: data.content,
-    user: data.userId,
-  });
+  const response = await client.get('/fakeApi/posts');
   return response.data;
 });
 
-export const { update } = postsSlice.actions;
+export const addNewPost = createAsyncThunk("posts/create", async (data) => {
+  const response = await client.post("/fakeApi/posts", data);
+  return response.data;
+});
+
+export const { update, reactionAdded } = postsSlice.actions;
 
 export default postsSlice.reducer;
 
 export const selectAllPosts = (state) => state.posts.items;
 
 export const selectPostById = (state, postId) =>
-  state.posts.items.find((post) => post.id === Number(postId));
+  state.posts.items.find((post) => post.id === postId);
+
+export const selectPostsByUser = createSelector(
+  [selectAllPosts, (state, userId) => userId],
+  (posts, userId) => posts.filter(post => post.user === userId)
+)

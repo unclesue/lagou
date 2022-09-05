@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { createPost } from "./postSlice";
+import { addNewPost } from "./postSlice";
 
 export default function AddPostForm() {
   const [title, setTitle] = useState("");
@@ -13,7 +13,7 @@ export default function AddPostForm() {
   const onSubmit = async () => {
     try {
       if (!(title && content && userId)) return;
-      await dispatch(createPost({ title, content, userId })).unwrap();
+      await dispatch(addNewPost({ title, content, user: userId })).unwrap();
       setTitle("");
       setContent("");
       setUserId("")
