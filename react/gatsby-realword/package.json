@@ -19,6 +19,7 @@
     "react-dom": "^18.1.0"
   },
   "devDependencies": {
+    "eslint-config-react-app": "^7.0.1",
     "prettier": "^2.7.1"
   },
   "repository": {
