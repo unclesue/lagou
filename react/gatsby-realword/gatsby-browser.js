@@ -1,5 +1,5 @@
 const React = require("react")
-const { rootStore } = require("./src/store/store")
+const { store } = require("./src/store/store")
 const { Provider } = require("react-redux")
 const Layout = require("./src/components/layout").default
 
@@ -9,5 +9,5 @@ exports.wrapPageElement = ({ element, props }) => {
 }
 
 exports.wrapRootElement = ({ element }) => {
-  return <Provider store={rootStore}>{element}</Provider>
+  return <Provider store={store}>{element}</Provider>
 }

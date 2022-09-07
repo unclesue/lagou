@@ -1,11 +1,26 @@
-import { configureStore, combineReducers } from "@reduxjs/toolkit"
-import { counterSlice } from "./slice/counter"
+import { configureStore } from "@reduxjs/toolkit"
+import { api } from "./services/api"
+import counter from "./slices/counter"
+import logger from "redux-logger"
 
-const rootReducer = combineReducers({
-  counter: counterSlice.reducer,
-})
+// 中间件集合
+const middlewareHandler = getDefaultMiddleware => {
+  const middlewareList = [api.middleware, ...getDefaultMiddleware()]
+  if (process.env.NODE_ENV === "development") {
+    middlewareList.push(logger)
+  }
+  return middlewareList
+}
 
-//API slice会包含自动生成的redux reducer和一个自定义中间件
-export const rootStore = configureStore({
-  reducer: rootReducer
-})
+export const createStore = options =>
+  configureStore({
+    reducer: {
+      [api.reducerPath]: api.reducer,
+      counter,
+    },
+    middleware: getDefaultMiddleware =>
+      middlewareHandler(getDefaultMiddleware),
+    ...options,
+  })
+
+export const store = createStore()
