@@ -1,15 +1,17 @@
-import React from "react"
+import React, { useState } from "react"
 import { useGetPostsQuery } from "../../store/services/posts"
+import Create from "./create"
+import { PostDetail } from "./detail"
 
-const PostListItem = ({ data: { attributes, id }, onSelect }) => {
+const PostListItem = ({ data: { attributes, id }, setPostId }) => {
   return (
     <li>
-      <span>{attributes.title}</span>
+      <span onClick={() => setPostId(id)}>{attributes.title}</span>
     </li>
   )
 }
 
-const PostList = () => {
+const PostList = (props) => {
   const { data: posts, isLoading } = useGetPostsQuery()
 
   if (isLoading) {
@@ -23,32 +25,31 @@ const PostList = () => {
   return (
     <div>
       {posts.map(post => (
-        <PostListItem key={post.id} data={post} />
+        <PostListItem key={post.id} data={post} {...props} />
       ))}
     </div>
   )
 }
 
 export default function Posts() {
+  const [postId, setPostId] = useState(0)
   return (
-    <div>
-      <h3>Posts</h3>
+    <div style={{ padding: 10 }}>
+      <h3>Posts {postId}</h3>
       <hr />
-      <div>
-        <div>
-          {/* <AddPost /> */}
-          {/* <hr /> */}
+      <div style={{display: "flex"}}>
+        <div style={{width: "20%"}}>
+          <Create />
+          <hr />
           Posts:
-          <PostList />
+          <PostList setPostId={setPostId} />
           <hr />
           List with duplicate subscription:
-          <PostList />
+          <PostList setPostId={setPostId} />
         </div>
-        {/* <div className="column column-3 text-left">
-          <Routes>
-            <Route path="/:id" element={<PostDetail />} />
-          </Routes>
-        </div> */}
+        <div>
+          <PostDetail postId={postId} />
+        </div>
       </div>
     </div>
   )
