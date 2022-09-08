@@ -2,7 +2,7 @@ import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react"
 
 // Create our baseQuery instance
 const baseQuery = fetchBaseQuery({
-  baseUrl: "http://localhost:1337/api/",
+  baseUrl: "https://api.realworld.io/api",
   prepareHeaders: (headers, { getState }) => {
     // By default, if we have a token in the store, let's use that for authenticated requests
     const token = getState().auth?.token
@@ -12,15 +12,6 @@ const baseQuery = fetchBaseQuery({
     return headers
   },
 })
-
-// 请求的拦截器
-const baseQueryWithIntercept = async (args, api, extraOptions) => {
-  const result = await baseQuery(args, api, extraOptions)
-  if (result.error && result.error.status !== 200) {
-    return Promise.reject(new Error(result.message || 'Error'))
-  }
-  return result
-}
 
 /**
  * Create a base API to inject endpoints into elsewhere.
@@ -40,7 +31,7 @@ export const api = createApi({
   /**
    * A bare bones base query would just be `baseQuery: fetchBaseQuery({ baseUrl: '/' })`
    */
-  baseQuery: baseQueryWithIntercept,
+  baseQuery,
   /**
    * Tag types must be defined in the original API definition
    * for any tags that would be provided by injected endpoints
