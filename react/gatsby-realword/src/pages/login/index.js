@@ -1,3 +1,5 @@
+import React from 'react'
+import { navigate } from "gatsby"
 import useInput from "../../hooks/use-input"
 import { useLoginMutation } from "../../store/services/auth"
 
@@ -7,12 +9,17 @@ export default function Login() {
   const [login, { isLoading, error }] = useLoginMutation()
   const handleSubmit = async e => {
     e.preventDefault()
-    await login({
-      user: {
-        email: email.input.value,
-        password: password.input.value,
-      },
-    })
+    try {
+      await login({
+        user: {
+          email: email.input.value,
+          password: password.input.value,
+        },
+      }).unwrap()
+      navigate("/")
+    } catch (error) {
+      console.log(error, "error")
+    }
   }
 
   const ErrorMessage = () => {

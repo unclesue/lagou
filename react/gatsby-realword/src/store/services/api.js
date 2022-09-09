@@ -5,13 +5,30 @@ const baseQuery = fetchBaseQuery({
   baseUrl: "https://api.realworld.io/api",
   prepareHeaders: (headers, { getState }) => {
     // By default, if we have a token in the store, let's use that for authenticated requests
-    const token = getState().auth?.token
+    const token = localStorage?.token
     if (token) {
-      headers.set("authentication", `Bearer ${token}`)
+      headers.set("Authorization", `Token ${token}`)
     }
     return headers
   },
 })
+
+// const baseQueryWithReauth = async (args, api, extraOptions) => {
+//   let result = await baseQuery(args, api, extraOptions)
+//   if (result.error && result.error.status === 401) {
+//     // try to get a new token
+//     const refreshResult = await baseQuery('/refreshToken', api, extraOptions)
+//     if (refreshResult.data) {
+//       // store the new token
+//       api.dispatch(tokenReceived(refreshResult.data))
+//       // retry the initial query
+//       result = await baseQuery(args, api, extraOptions)
+//     } else {
+//       api.dispatch(loggedOut())
+//     }
+//   }
+//   return result
+// }
 
 /**
  * Create a base API to inject endpoints into elsewhere.
