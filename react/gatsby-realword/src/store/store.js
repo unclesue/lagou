@@ -3,6 +3,7 @@ import { api } from "./services/api"
 import counter from "./slices/counter"
 import logger from "redux-logger"
 import auth from "./slices/auth"
+import article from "./slices/article"
 
 // 中间件集合
 const middlewareHandler = getDefaultMiddleware => {
@@ -19,6 +20,7 @@ export const createStore = options =>
       [api.reducerPath]: api.reducer,
       counter,
       auth,
+      article,
     },
     middleware: getDefaultMiddleware =>
       middlewareHandler(getDefaultMiddleware),

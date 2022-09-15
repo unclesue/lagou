@@ -6,5 +6,12 @@
 
 module.exports = {
   /* Your site config here */
-  plugins: [],
+  plugins: [
+    {
+      resolve: `gatsby-source-article`,
+      options: {
+        apiUrl: "https://api.realworld.io/api",
+      },
+    },
+  ],
 }
