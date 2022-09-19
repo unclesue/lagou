@@ -5,6 +5,9 @@ const Layout = require("./src/components/layout").default
 
 // Wraps every page in a component
 exports.wrapPageElement = ({ element, props }) => {
+  if (element.key.startsWith('/404')) {
+    return <>{element}</>
+  }
   return <Layout {...props}>{element}</Layout>
 }
 

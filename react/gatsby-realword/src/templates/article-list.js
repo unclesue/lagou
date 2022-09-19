@@ -44,7 +44,7 @@ const ArticleList = ({ articles }) => {
           <i className="ion-heart" /> {article.favoritesCount}
         </button>
       </div>
-      <Link to="" className="preview-link">
+      <Link to={`/articles/${article.slug}`} className="preview-link">
         <h1>{article.title}</h1>
         <p>{article.description}</p>
         <span>Read more...</span>

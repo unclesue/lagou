@@ -13,5 +13,6 @@ module.exports = {
         apiUrl: "https://api.realworld.io/api",
       },
     },
+    'gatsby-source-detail',
   ],
 }

@@ -8,7 +8,12 @@ export const articleApi = api.injectEndpoints({
         params,
       }),
     }),
+    getArticle: build.query({
+      query: slug => ({
+        url: `/articles/${slug}`
+      }),
+    }),
   }),
 })
 
-export const { useGetArticlesQuery } = articleApi
+export const { useGetArticlesQuery, useGetArticleQuery } = articleApi
