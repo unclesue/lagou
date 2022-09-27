@@ -12,7 +12,7 @@ function* handleSignup(action: SignupAction) {
   try {
     yield axios.post(`${API}/signup`, action.payload);
     yield put(signupSuccess());
-  } catch (error) {
+  } catch (error: any) {
     yield put(signupFail(error.response.data.error));
   }
 }

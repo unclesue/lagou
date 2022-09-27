@@ -1,18 +1,66 @@
-import { Button, Form, Input } from "antd";
-import React from "react";
-import { useDispatch } from "react-redux";
-import { signup, SignupPayload } from "../../store/actions/auth";
+import { Button, Form, Input, Result } from "antd";
+import React, { useEffect } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { Link } from "react-router-dom";
+import { resetSignup, signup, SignupPayload } from "../../store/actions/auth";
+import { AppState } from "../../store/reducers";
+import { AuthState } from "../../store/reducers/auth";
 import Layout from "./Layout";
 
 const Signup = () => {
-  const dispatch = useDispatch()
+  const dispatch = useDispatch();
+  const auth = useSelector<AppState, AuthState>((state) => state.auth);
+  const [form] = Form.useForm();
+
   const onFinish = (values: SignupPayload) => {
-    console.log(values);
-    dispatch(signup(values))
+    dispatch(signup(values));
   };
+
+  useEffect(() => {
+    if (auth.signup.loaded && auth.signup.success) {
+      form.resetFields();
+    }
+  }, [auth]);
+
+  const showSuccess = () => {
+    if (auth.signup.loaded && auth.signup.success) {
+      return (
+        <Result
+          status="success"
+          title="注册成功"
+          extra={[
+            <Button type="primary" key="signin">
+              <Link to="/signin">登录</Link>
+            </Button>,
+          ]}
+        />
+      );
+    }
+  };
+
+  const showError = () => {
+    if (auth.signup.loaded && !auth.signup.success) {
+      return (
+        <Result
+          status="warning"
+          title="注册失败"
+          subTitle={auth.signup.message}
+        />
+      );
+    }
+  };
+
+  useEffect(() => {
+    return () => {
+      dispatch(resetSignup());
+    };
+  }, []);
+
   return (
     <Layout title="signup" subTitle="signup page">
-      <Form labelCol={{ span: 1 }} onFinish={onFinish}>
+      {showSuccess()}
+      {showError()}
+      <Form form={form} labelCol={{ span: 1 }} onFinish={onFinish}>
         <Form.Item
           label="昵称"
           name="name"

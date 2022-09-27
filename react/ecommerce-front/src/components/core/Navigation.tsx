@@ -12,18 +12,19 @@ const useActive = (currentPath: string, path: string) => {
 const Navigation = () => {
   const router = useSelector<AppState, RouterState>((state) => state.router);
   const pathname = router.location.hash.substring(1);
+
   return (
     <Menu mode="horizontal" selectable={false}>
-      <Menu.Item className={useActive(pathname, "/")}>
+      <Menu.Item key="home" className={useActive(pathname, "/")}>
         <Link to="/">首页</Link>
       </Menu.Item>
-      <Menu.Item className={useActive(pathname, "/shop")}>
+      <Menu.Item key="shop" className={useActive(pathname, "/shop")}>
         <Link to="/shop">商城</Link>
       </Menu.Item>
-      <Menu.Item className={useActive(pathname, "/signin")}>
+      <Menu.Item key="signin" className={useActive(pathname, "/signin")}>
         <Link to="/signin">登录</Link>
       </Menu.Item>
-      <Menu.Item className={useActive(pathname, "/signup")}>
+      <Menu.Item key="signup" className={useActive(pathname, "/signup")}>
         <Link to="/signup">注册</Link>
       </Menu.Item>
     </Menu>
