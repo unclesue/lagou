@@ -5,7 +5,7 @@ import Layout from "./Layout";
 const Home = () => {
   const state = useSelector((state) => state);
   return (
-    <Layout>
+    <Layout title="home" subTitle="home page">
       <div>Home {JSON.stringify(state)}</div>
     </Layout>
   );
