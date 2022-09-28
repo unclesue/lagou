@@ -17,7 +17,6 @@ const Signup = () => {
   };
 
   useEffect(() => {
-    console.log('first')
     if (auth.signup.loaded && auth.signup.success) {
       form.resetFields();
     }
