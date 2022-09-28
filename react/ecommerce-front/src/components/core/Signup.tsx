@@ -17,10 +17,11 @@ const Signup = () => {
   };
 
   useEffect(() => {
+    console.log('first')
     if (auth.signup.loaded && auth.signup.success) {
       form.resetFields();
     }
-  }, [auth]);
+  }, [auth, form]);
 
   const showSuccess = () => {
     if (auth.signup.loaded && auth.signup.success) {
@@ -54,7 +55,7 @@ const Signup = () => {
     return () => {
       dispatch(resetSignup());
     };
-  }, []);
+  }, [dispatch]);
 
   return (
     <Layout title="signup" subTitle="signup page">
