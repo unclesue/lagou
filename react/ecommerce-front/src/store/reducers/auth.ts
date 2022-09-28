@@ -1,6 +1,9 @@
 import {
   AuthUnionType,
   RESET_SIGNUP,
+  SIGNIN,
+  SIGNIN_FAIL,
+  SIGNIN_SUCCESS,
   SIGNUP,
   SIGNUP_FAIL,
   SIGNUP_SUCCESS,
@@ -12,13 +15,23 @@ export interface AuthState {
     success: boolean;
     message: string;
   };
+  signin: {
+    loaded: boolean;
+    success: boolean;
+    message: string;
+  };
 }
 
 const intialState: AuthState = {
   signup: {
     loaded: false,
     success: false,
-    message: ""
+    message: "",
+  },
+  signin: {
+    loaded: false,
+    success: false,
+    message: "",
   },
 };
 
@@ -55,9 +68,34 @@ export default function auth(state = intialState, action: AuthUnionType) {
         signup: {
           loaded: false,
           success: false,
-          message: ""
+          message: "",
         },
-      }
+      };
+    case SIGNIN:
+      return {
+        ...state,
+        signin: {
+          loaded: false,
+          success: false,
+        },
+      };
+    case SIGNIN_SUCCESS:
+      return {
+        ...state,
+        signin: {
+          loaded: true,
+          success: true,
+        },
+      };
+    case SIGNIN_FAIL:
+      return {
+        ...state,
+        signin: {
+          loaded: true,
+          success: false,
+          message: action.message,
+        },
+      };
     default:
       return state;
   }
