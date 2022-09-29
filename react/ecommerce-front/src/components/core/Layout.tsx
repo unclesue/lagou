@@ -5,7 +5,7 @@ import Navigation from "./Navigation";
 interface Props {
   children: React.ReactNode;
   title: string;
-  subTitle: string;
+  subTitle?: string;
 }
 
 const Layout: FC<Props> = ({ children, title, subTitle }) => {

@@ -44,7 +44,7 @@ const AdminDashboard = () => {
   ];
   const { user } = isAuth() as Jwt;
   return (
-    <Layout title="admin dashboard" subTitle="">
+    <Layout title="admin dashboard">
       <Row>
         <Col span={4}>
           <Title level={3}>管理员菜单</Title>

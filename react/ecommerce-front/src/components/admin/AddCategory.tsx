@@ -13,12 +13,12 @@ const AddCategory = () => {
     async function addCategory() {
       try {
         const { user, token } = isAuth() as Jwt;
-        await axios.post(
+        const { data } = await axios.post<{ name: string }>(
           `${API}/category/create/${user._id}`,
           { name },
           { headers: { authorization: `Bearer ${token}` } }
         );
-        message.success(`${name} 分类添加成功`);
+        message.success(`${data.name} 分类添加成功`);
       } catch (error: any) {
         message.error(error.response.data.error);
       }
@@ -30,7 +30,7 @@ const AddCategory = () => {
     setName(value.name);
   };
   return (
-    <Layout title="添加分类" subTitle="">
+    <Layout title="添加分类">
       <Form onFinish={onFinish}>
         <Form.Item
           label="分类名称"
@@ -45,7 +45,6 @@ const AddCategory = () => {
           </Button>
         </Form.Item>
       </Form>
-
     </Layout>
   );
 };
