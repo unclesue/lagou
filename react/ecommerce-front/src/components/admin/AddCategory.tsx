@@ -1,7 +1,6 @@
 import { Button, Form, Input, message } from "antd";
 import axios from "axios";
 import React, { useEffect, useState } from "react";
-import { API } from "../../config";
 import { isAuth } from "../../helpers/auth";
 import { Jwt } from "../../store/models/auth";
 import Layout from "../core/Layout";
@@ -14,7 +13,7 @@ const AddCategory = () => {
       try {
         const { user, token } = isAuth() as Jwt;
         const { data } = await axios.post<{ name: string }>(
-          `${API}/category/create/${user._id}`,
+          `${process.env.REACT_APP_API_URL}/category/create/${user._id}`,
           { name },
           { headers: { authorization: `Bearer ${token}` } }
         );

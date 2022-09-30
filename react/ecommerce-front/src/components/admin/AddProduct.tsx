@@ -9,7 +9,6 @@ import { CategoryState } from "../../store/reducers/category";
 import { RcFile } from "antd/lib/upload";
 import { isAuth } from "../../helpers/auth";
 import { Jwt } from "../../store/models/auth";
-import { API } from "../../config";
 import axios from "axios";
 
 const AddProduct = () => {
@@ -31,7 +30,7 @@ const AddProduct = () => {
     }
     file && formData.set("photo", file);
     axios
-      .post(`${API}/product/create/${user._id}`, formData, {
+      .post(`${process.env.REACT_APP_API_URL}/product/create/${user._id}`, formData, {
         headers: {
           Authorization: `Bearer ${token}`,
         },

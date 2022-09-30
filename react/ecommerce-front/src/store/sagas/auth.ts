@@ -1,6 +1,5 @@
 import axios, { AxiosResponse } from "axios";
 import { takeEvery, put } from "redux-saga/effects";
-import { API } from "../../config";
 import {
   signupFail,
   signupSuccess,
@@ -14,7 +13,7 @@ import {
 
 function* handleSignup(action: SignupAction) {
   try {
-    yield axios.post(`${API}/signup`, action.payload);
+    yield axios.post(`${process.env.REACT_APP_API_URL}/signup`, action.payload);
     yield put(signupSuccess());
   } catch (error: any) {
     yield put(signupFail(error.response.data.error));
@@ -23,7 +22,7 @@ function* handleSignup(action: SignupAction) {
 
 function* handleSignin(action: SigninAction) {
   try {
-    let response: AxiosResponse = yield axios.post(`${API}/signin`, action.payload);
+    let response: AxiosResponse = yield axios.post(`${process.env.REACT_APP_API_URL}/signin`, action.payload);
     localStorage.setItem("jwt", JSON.stringify(response.data))
     yield put(signinSuccess());
   } catch (error: any) {
