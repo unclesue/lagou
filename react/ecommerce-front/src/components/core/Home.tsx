@@ -22,7 +22,7 @@ const Home = () => {
 
   return (
     <Layout title="home" subTitle="home page">
-      {/* <Search /> */}
+      <Search />
       <Title level={5}>最新上架</Title>
       <Row gutter={[16, 16]}>
         {createdAt.products.map((item) => (

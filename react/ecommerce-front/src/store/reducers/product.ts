@@ -2,6 +2,7 @@ import {
   ProductUnionType,
   GET_PRODUCT,
   GET_PRODUCT_SUCCESS,
+  SEARCH_PRODUCT_SUCCESS,
 } from "../actions/product";
 import { Product } from "../models/product";
 
@@ -16,6 +17,9 @@ export interface ProductState {
     success: boolean;
     products: Product[];
   };
+  search: {
+    products: Product[];
+  };
 }
 
 const intialState: ProductState = {
@@ -27,6 +31,9 @@ const intialState: ProductState = {
   sold: {
     loaded: false,
     success: false,
+    products: [],
+  },
+  search: {
     products: [],
   },
 };
@@ -48,6 +55,13 @@ export default function product(state = intialState, action: ProductUnionType) {
         [action.sortBy]: {
           loaded: true,
           success: true,
+          products: action.payload,
+        },
+      };
+    case SEARCH_PRODUCT_SUCCESS:
+      return {
+        ...state,
+        search: {
           products: action.payload,
         },
       };
