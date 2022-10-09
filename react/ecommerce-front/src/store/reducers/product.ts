@@ -3,6 +3,7 @@ import {
   GET_PRODUCT,
   GET_PRODUCT_SUCCESS,
   SEARCH_PRODUCT_SUCCESS,
+  FILTER_PRODUCT_SUCCESS,
 } from "../actions/product";
 import { Product } from "../models/product";
 
@@ -20,6 +21,10 @@ export interface ProductState {
   search: {
     products: Product[];
   };
+  filter: {
+    size: number;
+    products: Product[];
+  };
 }
 
 const intialState: ProductState = {
@@ -34,6 +39,10 @@ const intialState: ProductState = {
     products: [],
   },
   search: {
+    products: [],
+  },
+  filter: {
+    size: 0,
     products: [],
   },
 };
@@ -63,6 +72,18 @@ export default function product(state = intialState, action: ProductUnionType) {
         ...state,
         search: {
           products: action.payload,
+        },
+      };
+    case FILTER_PRODUCT_SUCCESS:
+      const data =
+        action.skip === 0
+          ? action.payload.data
+          : [...state.filter.products, ...action.payload.data];
+      return {
+        ...state,
+        filter: {
+          products: data,
+          size: action.payload.size
         },
       };
     default:
