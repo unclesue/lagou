@@ -5,8 +5,11 @@ import {
   filterProductSuccess,
   FILTER_PRODUCT,
   GetProductAction,
+  GetProductByIdAction,
+  getProductByIdSuccess,
   getProductSuccess,
   GET_PRODUCT,
+  GET_PRODUCT_BY_ID,
   SearchProductAction,
   searchProductSuccess,
   SEARCH_PRODUCT,
@@ -42,8 +45,16 @@ function* handleFilterProduct(action: FilterProductAction) {
   yield put(filterProductSuccess(response.data, action.payload.skip));
 }
 
+function* handleGetProductById(action: GetProductByIdAction) {
+  let response: AxiosResponse<Product> = yield axios.get(
+    `${process.env.REACT_APP_API_URL}/product/${action.payload.productId}`
+  );
+  yield put(getProductByIdSuccess(response.data));
+}
+
 export default function* product() {
   yield takeEvery(GET_PRODUCT, handleGetProduct);
   yield takeEvery(SEARCH_PRODUCT, handleSearchProduct);
   yield takeEvery(FILTER_PRODUCT, handleFilterProduct);
+  yield takeEvery(GET_PRODUCT_BY_ID, handleGetProductById);
 }

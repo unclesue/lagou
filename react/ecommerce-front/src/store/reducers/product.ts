@@ -4,6 +4,7 @@ import {
   GET_PRODUCT_SUCCESS,
   SEARCH_PRODUCT_SUCCESS,
   FILTER_PRODUCT_SUCCESS,
+  GET_PRODUCT_BY_ID_SUCCESS,
 } from "../actions/product";
 import { Product } from "../models/product";
 
@@ -25,6 +26,7 @@ export interface ProductState {
     size: number;
     products: Product[];
   };
+  product: Product;
 }
 
 const intialState: ProductState = {
@@ -44,6 +46,21 @@ const intialState: ProductState = {
   filter: {
     size: 0,
     products: [],
+  },
+  product: {
+    _id: "",
+    name: "",
+    price: 0,
+    description: "",
+    category: {
+      _id: "",
+      name: "",
+    },
+    quantity: 0,
+    sold: 0,
+    photo: new FormData(),
+    shipping: false,
+    createdAt: "",
   },
 };
 
@@ -83,9 +100,14 @@ export default function product(state = intialState, action: ProductUnionType) {
         ...state,
         filter: {
           products: data,
-          size: action.payload.size
+          size: action.payload.size,
         },
       };
+    case GET_PRODUCT_BY_ID_SUCCESS:
+      return {
+        ...state,
+        product: action.payload.product
+      }
     default:
       return state;
   }

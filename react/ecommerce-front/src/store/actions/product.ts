@@ -113,10 +113,44 @@ export const filterProductSuccess = (
   skip,
 });
 
+// 通过id获取商品详情
+export const GET_PRODUCT_BY_ID = "GET_PRODUCT_BY_ID";
+export const GET_PRODUCT_BY_ID_SUCCESS = "GET_PRODUCT_BY_ID_SUCCESS";
+
+export interface GetProductByIdAction {
+  type: typeof GET_PRODUCT_BY_ID;
+  payload: {
+    productId: string;
+  };
+}
+
+export interface GetProductByIdSuccessAction {
+  type: typeof GET_PRODUCT_BY_ID_SUCCESS;
+  payload: {
+    product: Product;
+  };
+}
+
+export const getProductById = (productId: string): GetProductByIdAction => ({
+  type: GET_PRODUCT_BY_ID,
+  payload: {
+    productId
+  },
+});
+
+export const getProductByIdSuccess = (product: Product): GetProductByIdSuccessAction => ({
+  type: GET_PRODUCT_BY_ID_SUCCESS,
+  payload: {
+    product
+  }
+});
+
 export type ProductUnionType =
   | GetProductAction
   | GetProductSuccessAction
   | SearchProductAction
   | SearchProductSuccessAction
   | FilterProductAction
-  | FilterProductSuccessAction;
+  | FilterProductSuccessAction
+  | GetProductByIdAction
+  | GetProductByIdSuccessAction;
