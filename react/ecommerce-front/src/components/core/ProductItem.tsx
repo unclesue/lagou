@@ -1,8 +1,9 @@
 import { Button, Card, Col, Image, Row, Typography } from "antd";
 import React, { FC } from "react";
-import { Link } from "react-router-dom";
+import { Link, useHistory } from "react-router-dom";
 import { Product } from "../../store/models/product";
 import moment from "moment";
+import { addItem } from "../../helpers/cart";
 
 const { Title, Paragraph } = Typography;
 
@@ -17,6 +18,14 @@ const ProductItem: FC<Props> = ({
   showViewProduct = true,
   showCartBtn = true,
 }) => {
+  const history = useHistory()
+
+  const addToCart = () => {
+    addItem(product, () => {
+      history.push("/cart")
+    })
+  }
+
   const showButtons = () => {
     let buttonArray = [];
     if (showViewProduct)
@@ -26,7 +35,11 @@ const ProductItem: FC<Props> = ({
         </Button>
       );
     if (showCartBtn) {
-      buttonArray.push(<Button type="link">加入购物车</Button>);
+      buttonArray.push(
+        <Button type="link" onClick={addToCart}>
+          加入购物车
+        </Button>
+      );
     }
     return buttonArray;
   };
