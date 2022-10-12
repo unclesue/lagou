@@ -1,16 +1,19 @@
-import React, { useState, useEffect, ChangeEvent } from "react"
-import Layout from "./Layout"
-import { CartItem, getCart } from "../../helpers/cart"
-import { Col, Divider, Input, Row } from "antd"
-import CartItemFc from "./CartItemFc"
+import React, { useState, useEffect, ChangeEvent } from "react";
+import Layout from "./Layout";
+import { CartItem, getCart } from "../../helpers/cart";
+import { Col, Divider, Input, Row } from "antd";
+import CartItemFc from "./CartItemFc";
+import TotalAmount from "./TotalAmount";
+import Pay from "./Pay";
 
 const Cart = () => {
-  const [cart, setCart] = useState<CartItem[]>([])
-  const [address, setAddress] = useState<string>("")
+  const [cart, setCart] = useState<CartItem[]>([]);
+  const [address, setAddress] = useState<string>("");
+  const [totalAmount, setTotalAmount] = useState<number>(0);
 
   useEffect(() => {
-    setCart(getCart())
-  }, [])
+    setCart(getCart());
+  }, []);
 
   const showCart = () => (
     <table style={{ width: "100%" }}>
@@ -25,12 +28,12 @@ const Cart = () => {
         </tr>
       </thead>
       <tbody className="ant-table-tbody">
-        {cart.map(item => (
+        {cart.map((item) => (
           <CartItemFc key={item._id} setCart={setCart} product={item} />
         ))}
       </tbody>
     </table>
-  )
+  );
 
   return (
     <Layout title="购物车" subTitle="付款吧, 我就是你的了">
@@ -47,10 +50,16 @@ const Cart = () => {
             />
           </Row>
           <Divider />
+          <Row>
+            <TotalAmount cart={cart} setTotalAmount={setTotalAmount} />
+          </Row>
+          <Row>
+            <Pay totalAmount={totalAmount} cart={cart} address={address} />
+          </Row>
         </Col>
       </Row>
     </Layout>
-  )
-}
+  );
+};
 
-export default Cart
+export default Cart;
