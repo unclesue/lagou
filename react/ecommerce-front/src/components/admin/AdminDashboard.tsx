@@ -34,7 +34,7 @@ const AdminDashboard = () => {
     },
     {
       label: (
-        <Link to="/admin/create/product">
+        <Link to="/admin/orders">
           <OrderedListOutlined />
           订单列表
         </Link>
