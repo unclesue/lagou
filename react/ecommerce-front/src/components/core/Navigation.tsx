@@ -1,9 +1,11 @@
-import { Menu } from "antd";
+import { Badge, Menu } from "antd";
 import { RouterState } from "connected-react-router";
-import React from "react";
+import React, { useContext, useEffect } from "react";
 import { useSelector } from "react-redux";
 import { Link } from "react-router-dom";
+import { TotalContext } from "../../anotherStore";
 import { isAuth } from "../../helpers/auth";
+import { itemCount } from "../../helpers/cart";
 import { Jwt } from "../../store/models/auth";
 import { AppState } from "../../store/reducers";
 
@@ -13,7 +15,9 @@ const isActive = (currentPath: string, path: string) => {
 
 const Navigation = () => {
   const router = useSelector<AppState, RouterState>((state) => state.router);
+  const [count, setCount] = useContext(TotalContext)
   const pathname = router.location.hash.substring(1);
+
   const getDashboardUrl = () => {
     let url = "/user/dashboard";
     const auth = isAuth();
@@ -26,6 +30,10 @@ const Navigation = () => {
     return url;
   };
 
+  useEffect(() => {
+    setCount(itemCount())
+  })
+
   return (
     <Menu mode="horizontal" selectable={false}>
       <Menu.Item key="home" className={isActive(pathname, "/")}>
@@ -33,6 +41,12 @@ const Navigation = () => {
       </Menu.Item>
       <Menu.Item key="shop" className={isActive(pathname, "/shop")}>
         <Link to="/shop">商城</Link>
+      </Menu.Item>
+      <Menu.Item className={isActive(pathname, "/cart")}>
+        <Link to="/cart">
+          购物车
+          <Badge count={count} offset={[5, -10]} />
+        </Link>
       </Menu.Item>
       {!isAuth() && (
         <>
