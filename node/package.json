@@ -1,0 +1,20 @@
+{
+  "name": "node",
+  "version": "1.0.0",
+  "description": "",
+  "main": "01-event-driven.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "@types/node": "^20.4.0"
+  },
+  "dependencies": {
+    "browser-sync": "^2.29.3",
+    "chokidar": "^3.5.3",
+    "marked": "^5.1.0"
+  }
+}
