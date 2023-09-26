@@ -1,0 +1,5 @@
+<!-- 第 147 题：v-if、v-show、v-html 的原理是什么，它是如何封装的？ -->
+
+v-if会调用addIfCondition方法，生成vnode时会忽略对应的节点，render的时候就不会渲染
+v-show会生成vnode，render时会生成真实的节点，只是在render过程中会在节点的属性中修改show属性值，也就是display
+v-html会先移除节点下所有节点，调用html方法，通过addProp添加innerHTML属性，归根结底就是设置innerHTML为v-html的值
